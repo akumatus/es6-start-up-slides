@@ -1,0 +1,910 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/moon.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<script type="text/template">
+						## ECMAScript 6
+						wuyue
+
+						2016.4.1
+					</script>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## TOPICS
+							- let, const and block
+							- 解构 destructuring
+							- 模板字符串 template string
+							- 对象的扩展
+							- 函数的扩展
+							- symbol
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							## TOPICS
+							- iterator 和 for-of
+							- 类 class
+							- 模块 module
+							- promise
+							- 代理 proxy
+							- reflect
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## let, const and block
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### let
+							- 声明的变量只在它所在的代码块有效
+							- 不存在变量提升
+							- 不允许重复声明
+							- 暂时性死区
+
+							```javascript
+							var tmp = 123;
+
+							if (true) {
+								tmp = 'abc'; // ReferenceError
+								let tmp;
+							}
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### const
+							- 用于声明常量
+							- 一旦声明，值就不能改变
+							- 必须立即初始化，不能留到以后赋值
+
+							```javascript
+							const PI = 3.1415;
+
+							PI = 3;
+							// TypeError: Assignment to constant variable.
+
+							const foo;
+							// SyntaxError: Missing initializer in const declaration
+							```
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## 解构 destructuring
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### 解构 destructuring
+
+							- Array
+							```javascript
+							var [a, b, c] = [1, 2, 3];
+							a   // 1
+							```
+
+							- Object
+							```javascript
+							var { bar, foo } = { foo: "aaa", bar: "bbb" };
+							foo // "aaa"
+							bar // "bbb"
+							```
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							##  template string
+							#### 模板字符串 <!-- .element: class="fragment" data-fragment-index="1" -->
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### 模板字符串
+
+							```javascript
+							// 多行字符串
+							`In JavaScript this is
+							not legal.`
+
+							// 字符串中嵌入变量
+							var name = "Bob", time = "today";
+							`Hello ${name}, how are you ${time}?`
+
+							// 调用函数
+							function fn() {
+							return "Hello World";
+							}
+
+							`foo ${fn()} bar`
+							```
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							### 对象的扩展
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### 属性名简写
+
+							```javascript
+							var birth = '2000/01/01';
+
+							var Person = {
+								birth,
+
+								hello() { console.log(this.birth); },
+
+								get wheels () {
+									return this._wheels;
+								},
+
+								set wheels (value) {
+									this._wheels = value;
+								},
+
+								* m(){
+									yield 'hello world';
+								}
+
+							};
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### 属性名表达式
+
+							- 允许字面量定义对象时，把表达式放在方括号内
+
+							```javascript
+							let propKey = 'foo';
+
+							let obj = {
+								[propKey]: true,
+								['a' + 'bc']: 123
+							};
+							```
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							##  函数的扩展
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							###  默认值
+
+							```javascript
+							function Point(x = 0, y = 0) {
+								this.x = x;
+								this.y = y;
+							}
+
+							var p = new Point();
+							p // { x: 0, y: 0 }
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							###  rest参数
+
+							- 用于获取函数的多余参数
+
+							```javascript
+							function add(...values) {
+								let sum = 0;
+
+								for (var val of values) {
+									sum += val;
+								}
+
+								return sum;
+							}
+
+							add(2, 5, 3) // 10
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							###  扩展运算符
+
+							- 将一个数组转为用逗号分隔的参数序列
+
+							```javascript
+							console.log(1, ...[2, 3, 4], 5)
+							// 1 2 3 4 5
+
+							function push(array, ...items) {
+								array.push(...items);
+							}
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							###  箭头函数
+							- 函数体内的this对象，就是定义时所在的对象
+							- 不可以当作构造函数
+							- 不可以使用arguments对象
+							- 不可以使用yield命令
+
+							```javascript
+							function foo() {
+								setTimeout(() => {
+								console.log('id:', this.id);
+								}, 100);
+							}
+
+							var id = 21;
+
+							foo.call({ id: 42 });
+							// id: 42
+							```
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Symbol
+							#### JavaScript的第七种原始类型 <!-- .element: class="fragment" data-fragment-index="1" -->
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### Symbol
+							- Symbol 是一种<span class="fragment highlight-blue">特殊的、不可变</span>的数据类型
+							- Symbol 值与其它任何值<span class="fragment highlight-blue">皆不相等</span>
+							- 可以作为对象属性的标识符使用，能<span class="fragment highlight-blue">避免命名冲突</span>
+
+							```javascript
+							var sym0 = Symbol();
+							var sym1 = Symbol("symbol1");
+
+							Symbol("symbol2") === Symbol("symbol2"); // false
+
+							var sym = new Symbol(); // TypeError
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### 全局共享的 Symbol
+
+							- Symbol.for：创建的symbol会被放入全局注册表中
+							- Symbol.keyFor：获取注册表中与某个symbol关联的键
+
+							```javascript
+							Symbol.for("bar") === Symbol.for("bar"); // true
+
+							var globalSym = Symbol.for("foo");
+							Symbol.keyFor(globalSym); // "foo"
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### Symbol 属性名遍历
+
+							- for-in、Object.keys等对象检查特性会忽略symbol键
+							- Object.getOwnPropertySymbols，Reflect.ownKeys
+
+							```javascript
+							let obj = {
+								[Symbol('my_key')]: 1,
+								enum: 2,
+								nonEnum: 3
+							};
+
+							Object.getOwnPropertyNames(obj)
+							// ["enum", "nonEnum"]
+
+							Object.getOwnPropertySymbols(obj)
+							// [Symbol(my_key)]
+
+							Reflect.ownKeys(obj)
+							// ["enum", "nonEnum", Symbol(my_key)]
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### 内置Symbol
+
+							- 共有11个内置Symbol值，指向语言内部使用的方法 	<!-- .element: class="fragment" data-fragment-index="1" -->
+							- Symbol.hasInstance：判断是否为该对象的实例 	<!-- .element: class="fragment" data-fragment-index="2" -->
+							- Symbol.iterator：对象的默认遍历器方法 		<!-- .element: class="fragment" data-fragment-index="3" -->
+
+							<pre class="fragment">
+								<code class="hljs">
+								class MyClass {
+									[Symbol.hasInstance](foo) {
+									return foo instanceof Array;
+									}
+								}
+
+								[1, 2, 3] instanceof new MyClass() // true
+								</code>
+							</pre>
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Set 和 Map 数据结构
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### Set
+							- 类似于数组，但是成员的值都是<span class="fragment highlight-blue">唯一的</span>
+							- Set 结构没有键名，只有键值，<span class="fragment highlight-blue">不能提供索引</span>
+							- set.size、set.has、set.add、set.delete、clear
+							- <span class="fragment highlight-blue">迭代器</span>set.keys、 set.values 和 set.entries
+
+							```javascript
+							var set = new Set([1, 2, 3, 4, 4]);
+							[...set]
+							// [1, 2, 3, 4]
+
+							for (let item of set.entries()) {
+								console.log(item);
+							}
+							// ["red", "red"]
+							// ["green", "green"]
+							// ["blue", "blue"]
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### Map
+
+							- Object本质上是键值对的集合
+							- Map类似于对象，各种类型的值都可以当作键
+
+							```javascript
+							var m = new Map();
+							var o = {p: 'Hello World'};
+							m.set(o, 'content')
+							m.get(o) // "content"
+
+							let map = new Map([
+								['F', 'no'],
+								['T',  'yes'],
+							]);
+							for (let [key, value] of map.entries()) {
+								console.log(key, value);
+							}
+							// "F" "no"
+							// "T" "yes"
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							## WeakMap和WeakSet
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Iterator和for-of循环
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### 遍历数组
+
+							- for
+							```javascript
+							for (var index = 0; index < myArray.length; index++) {
+								console.log(myArray[index]);
+							}
+							```
+
+							- forEach
+							```javascript
+							myArray.forEach(function (value) {
+								console.log(value);
+							});
+							```
+
+							- for-in
+							```javascript
+							for (var index in myArray) {
+								console.log(myArray[index]);
+							}
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### for-of循环
+
+							```javascript
+							for (var value of myArray) {
+								console.log(value);
+							}
+							```
+
+							- 最简洁、最直接的遍历数组元素的语法 		<!-- .element: class="fragment" data-fragment-index="1" -->
+							- 避开了for-in循环的所有缺陷 				<!-- .element: class="fragment" data-fragment-index="2" -->
+							- 可以正确响应break、continue和return语句 	<!-- .element: class="fragment" data-fragment-index="3" -->
+							- DOM NodeList、String、Map、Set 		<!-- .element: class="fragment" data-fragment-index="4" -->
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### 迭代器 Iterator
+
+							- for-of循环首先调用集合的 Symbol.iterator 方法，紧接着返回一个新的迭代器对象
+							- 迭代器对象可以是任意具有.next()方法的对象
+							- for-of循环将重复调用这个方法,每次循环调用一次
+
+							```javascript
+							var zeroesForeverIterator = {
+								[Symbol.iterator]: function () {
+									return this;
+								},
+
+								next: function () {
+									return {done: false, value: 0};
+								}
+							};
+							```
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## 生成器 Generator
+
+							[一只会说话的猫](https://people-mozilla.org/~jorendorff/demos/meow.html)
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### 生成器函数
+
+							- 生成器函数使用<span class="fragment highlight-blue">function*</span>声明
+							- 生成器函数内部，有一种类似return的语法: <span class="fragment highlight-blue">yield</span>
+							- 在生成器执行过程中，遇到yield表达式<span class="fragment highlight-blue">立即暂停</span>
+
+							```javascript
+							function* quips(name) {
+								yield "你好 " + name + "!";
+								yield "希望你能喜欢这篇介绍ES6的译文";
+								if (name.startsWith("X")) {
+									yield "你的名字 " + name + " 首字母是X,这很酷!";
+								}
+								yield "我们下次再见!";
+							}
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							```javascript
+							var iter = quips("jorendorff");
+							[object Generator]
+
+							> iter.next()
+							{ value: "你好 jorendorff!", done: false }
+
+							> iter.next()
+							{ value: "希望你能喜欢这篇介绍ES6的译文", done: false }
+
+							> iter.next()
+							{ value: "我们下次再见!", done: false }
+
+							> iter.next()
+							{ value: undefined, done: true }
+							```
+
+							生成器是迭代器 <!-- .element: class="fragment" data-fragment-index="1" -->
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							## 生成器与异步编程
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Class
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							### before
+							```javascript
+							function Point(x, y) {
+								this.x = x;
+								this.y = y;
+							}
+
+							Point.prototype.toString = function () {
+								return '(' + this.x + ', ' + this.y + ')';
+							};
+
+							var p = new Point(1, 2);
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### After
+
+							```javascript
+							class Point {
+								constructor(x, y) {
+									this.x = x;
+									this.y = y;
+								}
+
+								toString() {
+									return '(' + this.x + ', ' + this.y + ')';
+								}
+							}
+
+							typeof Point // "function"
+							Point === Point.prototype.constructor // true
+
+							Object.keys(Point.prototype)// []
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### 继承 Subclassing
+
+							- Class之间可以通过extends关键字实现继承
+							- super 属性直接从子类的原型开始查找属性
+
+							```javascript
+							class ColorPoint extends Point {}
+
+							class ColorPoint extends Point {
+								constructor(x, y, color) {
+									super(x, y); // 调用父类的constructor(x, y)
+									this.color = color;
+								}
+
+								toString() {
+									return this.color + ' ' + super.toString(); // 调用父类的toString()
+								}
+							}
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							ES5的继承，实质是先创造子类的实例对象this，然后再将父类的方法添加到this上面（Parent.apply(this)）
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							ES6的继承机制完全不同，实质是先创造父类的实例对象this（所以必须先调用super方法），然后再用子类的构造函数修改this。
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### getter, setter
+
+							- 设置存值函数和取值函数
+
+							```
+							class MyClass {
+								constructor() {
+									// ...
+								}
+								get prop() {
+									return 'getter';
+								}
+								set prop(value) {
+									console.log('setter: '+value);
+								}
+							}
+
+							let inst = new MyClass();
+							inst.prop = 123; // setter: 123
+							inst.prop// 'getter'
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### Generator
+
+							```javascript
+							class Foo {
+								constructor(...args) {
+									this.args = args;
+								}
+								* [Symbol.iterator]() {
+									for (let arg of this.args) {
+										yield arg;
+									}
+								}
+							}
+
+							for (let x of new Foo('hello', 'world')) {
+								console.log(x);
+							}
+							// hello
+							// world
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### 静态方法
+
+							- static关键字表示该方法不会被实例继承
+							- 父类的静态方法，可以被子类继承
+
+							```javascript
+							class Foo {
+								static classMethod() {
+									return 'hello';
+								}
+							}
+
+							Foo.classMethod() // 'hello'
+
+							var foo = new Foo();
+							foo.classMethod()
+							// TypeError: foo.classMethod is not a function
+							```
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Module
+							#### 取代 CommonJS 和 AMD 通用的模块解决方案  <!-- .element: class="fragment" data-fragment-index="1" -->
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### export
+
+							```javascript
+							var firstName = 'Michael';
+							var lastName = 'Jackson';
+							var year = 1958;
+							function multiply(x, y) {
+								return x * y;
+							};
+
+							export {
+								firstName,
+								lastName,
+								year,
+								multiply as multi
+							};
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### import
+
+							- 变量名必须与被导入模块对外接口的名称相同
+							- import命令具有提升效果
+							- 静态执行，不能使用表达式和变量
+
+							```javascript
+							import {firstName, lastName, year} from './profile';
+
+							import { lastName as surname } from './profile';
+
+							import * as circle from './circle';
+
+							// 报错
+							if (x === 1) {
+								import { foo } from 'module1';
+							} else {
+								import { foo } from 'module2';
+							}
+
+							import 'lodash';
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### export default
+
+							- 为模块指定默认输出，无需知道变量名或函数名
+							- export default命令只能使用一次
+
+							```javascript
+							export default function () {
+								console.log('foo');
+							}
+
+							import customName from './export-default';
+							customName(); // 'foo'
+
+							// 对比
+							export function foo() {
+								console.log('foo');
+							};
+
+							import {foo} from './export';
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### 复合写法
+
+							- 先输入后输出同一个模块
+
+							```javascript
+							export { foo, bar } from 'my_module';
+
+							// 等同于
+							import { foo, bar } from 'my_module';
+							export { foo, bar };
+
+							// 接口改名
+							export { foo as myFoo } from 'my_module';
+
+							// 整体输出
+							export * from 'my_module';
+
+							// 默认接口
+							export { default } from 'foo';
+							```
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Promise
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Proxy
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Reflect
+						</script>
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+
+            Reveal.configure({
+              backgroundTransition: 'zoom'
+            });
+		</script>
+	</body>
+</html>
