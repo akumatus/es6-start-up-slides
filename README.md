@@ -61,8 +61,8 @@ Use `Esc` to watch the overview.
 
 ```
 {
-"presets": ["es2015", "stage-2"],
-"plugins": []
+    "presets": ["es2015", "stage-2"],
+    "plugins": []
 }
 ```
 
@@ -89,7 +89,7 @@ var babel = require('babel-core');
 babel.transform(code, options) // => { code, map, ast }
 
 babel.transformFile("filename.js", options, function (err, result) {
-result; // => { code, map, ast }
+    result; // => { code, map, ast }
 });
 
 babel.transformFileSync(filename, options) // => { code, map, ast }
@@ -145,8 +145,8 @@ babel.transformFileSync(filename, options) // => { code, map, ast }
 var tmp = 123;
 
 if (true) {
-tmp = 'abc'; // ReferenceError
-let tmp;
+    tmp = 'abc'; // ReferenceError
+    let tmp;
 }
 ```
 
@@ -212,10 +212,10 @@ var { foo: baz } = { foo: 'aaa', bar: 'bbb' };
 baz // "aaa"
 
 let obj = {
-p: [
-'Hello',
-{ y: 'World' }
-]
+    p: [
+        'Hello',
+        { y: 'World' }
+    ]
 };
 
 let { p: [x, { y }] } = obj;
@@ -286,7 +286,7 @@ var name = "Bob", time = "today";
 
 // 调用函数
 function fn() {
-return "Hello World";
+    return "Hello World";
 }
 
 `foo ${fn()} bar`
@@ -310,21 +310,21 @@ return "Hello World";
 var birth = '2000/01/01';
 
 var Person = {
-birth,
+    birth,
 
-hello() { console.log(this.birth); },
+    hello() { console.log(this.birth); },
 
-get wheels () {
-return this._wheels;
-},
+    get wheels () {
+        return this._wheels;
+    },
 
-set wheels (value) {
-this._wheels = value;
-},
+    set wheels (value) {
+        this._wheels = value;
+    },
 
-* m(){
-yield 'hello world';
-}
+    * m(){
+        yield 'hello world';
+    }
 
 };
 ```
@@ -341,8 +341,8 @@ yield 'hello world';
 let propKey = 'foo';
 
 let obj = {
-[propKey]: true,
-['a' + 'bc']: 123
+    [propKey]: true,
+    ['a' + 'bc']: 123
 };
 ```
 
@@ -362,8 +362,8 @@ let obj = {
 
 ```javascript
 function Point(x = 0, y = 0) {
-this.x = x;
-this.y = y;
+    this.x = x;
+    this.y = y;
 }
 
 var p = new Point();
@@ -380,13 +380,13 @@ p // { x: 0, y: 0 }
 
 ```javascript
 function add(...values) {
-let sum = 0;
+    let sum = 0;
 
-for (var val of values) {
-sum += val;
-}
+    for (var val of values) {
+        sum += val;
+    }
 
-return sum;
+    return sum;
 }
 
 add(2, 5, 3) // 10
@@ -405,7 +405,7 @@ console.log(1, ...[2, 3, 4], 5)
 // 1 2 3 4 5
 
 function push(array, ...items) {
-array.push(...items);
+    array.push(...items);
 }
 ```
 
@@ -421,9 +421,9 @@ array.push(...items);
 
 ```javascript
 function foo() {
-setTimeout(() => {
-console.log('id:', this.id);
-}, 100);
+    setTimeout(() => {
+        console.log('id:', this.id);
+    }, 100);
 }
 
 var id = 21;
@@ -486,9 +486,9 @@ Symbol.keyFor(globalSym); // "foo"
 
 ```javascript
 let obj = {
-[Symbol('my_key')]: 1,
-enum: 2,
-nonEnum: 3
+    [Symbol('my_key')]: 1,
+    enum: 2,
+    nonEnum: 3
 };
 
 Object.getOwnPropertyNames(obj)
@@ -513,9 +513,9 @@ Reflect.ownKeys(obj)
 
 ```javascript
 class MyClass {
-[Symbol.hasInstance](foo) {
-return foo instanceof Array;
-}
+    [Symbol.hasInstance](foo) {
+        return foo instanceof Array;
+    }
 }
 
 [1, 2, 3] instanceof new MyClass() // true
@@ -545,7 +545,7 @@ var set = new Set([1, 2, 3, 4, 4]);
 // [1, 2, 3, 4]
 
 for (let item of set.entries()) {
-console.log(item);
+    console.log(item);
 }
 // ["red", "red"]
 // ["green", "green"]
@@ -568,11 +568,11 @@ m.set(o, 'content')
 m.get(o) // "content"
 
 let map = new Map([
-['F', 'no'],
-['T',  'yes'],
+    ['F', 'no'],
+    ['T',  'yes'],
 ]);
 for (let [key, value] of map.entries()) {
-console.log(key, value);
+    console.log(key, value);
 }
 // "F" "no"
 // "T" "yes"
@@ -595,21 +595,21 @@ console.log(key, value);
 - for
 ```javascript
 for (var index = 0; index < myArray.length; index++) {
-console.log(myArray[index]);
+    console.log(myArray[index]);
 }
 ```
 
 - forEach
 ```javascript
-myArray.forEach(function (value) {
-console.log(value);
+    myArray.forEach(function (value) {
+    console.log(value);
 });
 ```
 
 - for-in
 ```javascript
 for (var index in myArray) {
-console.log(myArray[index]);
+    console.log(myArray[index]);
 }
 ```
 
@@ -621,7 +621,7 @@ console.log(myArray[index]);
 
 ```javascript
 for (var value of myArray) {
-console.log(value);
+    console.log(value);
 }
 ```
 
@@ -642,12 +642,12 @@ console.log(value);
 
 ```javascript
 var zeroesForeverIterator = {
-[Symbol.iterator]: function () {
-return this;
+    [Symbol.iterator]: function () {
+    return this;
 },
 
 next: function () {
-return {done: false, value: 0};
+    return {done: false, value: 0};
 }
 };
 ```
@@ -674,9 +674,9 @@ return {done: false, value: 0};
 
 ```javascript
 function* helloWorldGenerator() {
-yield 'hello';
-yield 'world';
-return 'ending';
+    yield 'hello';
+    yield 'world';
+    return 'ending';
 }
 
 var hw = helloWorldGenerator();
@@ -702,9 +702,9 @@ hw.next()
 var myIterable = {};
 
 myIterable[Symbol.iterator] = function* () {
-yield 1;
-yield 2;
-yield 3;
+    yield 1;
+    yield 2;
+    yield 3;
 };
 
 [...myIterable] // [1, 2, 3]
@@ -718,16 +718,16 @@ yield 3;
 
 ```javascript
 function *foo() {
-yield 1;
-yield 2;
-yield 3;
-yield 4;
-yield 5;
-return 6;
+    yield 1;
+    yield 2;
+    yield 3;
+    yield 4;
+    yield 5;
+    return 6;
 }
 
 for (let v of foo()) {
-console.log(v);
+    console.log(v);
 }
 // 1 2 3 4 5
 ```
@@ -742,10 +742,10 @@ console.log(v);
 
 ```javascript
 function* f() {
-for(var i = 0; true; i++) {
-var reset = yield i;
-if(reset) { i = -1; }
-}
+    for(var i = 0; true; i++) {
+        var reset = yield i;
+        if(reset) { i = -1; }
+    }
 }
 
 var g = f();
@@ -765,22 +765,22 @@ g.next(true) // { value: 0, done: false }
 
 ```javascript
 function* bar() {
-yield 'x';
-yield* foo();
-yield 'y';
+    yield 'x';
+    yield* foo();
+    yield 'y';
 }
 
 // 等同于
 function* bar() {
-yield 'x';
-for (let v of foo()) {
-yield v;
-}
-yield 'y';
+    yield 'x';
+    for (let v of foo()) {
+        yield v;
+    }
+    yield 'y';
 }
 
 for (let v of bar()){
-console.log(v);
+    console.log(v);
 }
 // "x", "a", "b", "y"
 ```
@@ -796,11 +796,11 @@ console.log(v);
 ```javascript
 var ticking = true;
 var clock = function() {
-if (ticking)
-console.log('Tick!');
-else
-console.log('Tock!');
-ticking = !ticking;
+    if (ticking)
+        console.log('Tick!');
+    else
+        console.log('Tock!');
+    ticking = !ticking;
 }
 ```
 
@@ -808,12 +808,12 @@ ticking = !ticking;
 
 ```javascript
 var clock = function*() {
-while (true) {
-console.log('Tick!');
-yield;
-console.log('Tock!');
-yield;
-}
+    while (true) {
+        console.log('Tick!');
+        yield;
+        console.log('Tock!');
+        yield;
+    }
 };
 ```
 
@@ -836,23 +836,23 @@ yield;
 
 ```javascript
 function async () {
-return new Promise(function(resolve, reject) {
-setTimeout(() => {
-resolve('ok');
-}, 2000);
-});
+    return new Promise(function(resolve, reject) {
+        setTimeout(() => {
+            resolve('ok');
+        }, 2000);
+    });
 }
 
 function* gen(){
-var result = yield async();
-console.log(result);
+    var result = yield async();
+    console.log(result);
 }
 
 var g = gen();
 var result = g.next();
 
 result.value.then(function(data){
-g.next(data);
+    g.next(data);
 });
 ```
 
@@ -870,12 +870,12 @@ g.next(data);
 ### before
 ```javascript
 function Point(x, y) {
-this.x = x;
-this.y = y;
+    this.x = x;
+    this.y = y;
 }
 
 Point.prototype.toString = function () {
-return '(' + this.x + ', ' + this.y + ')';
+    return '(' + this.x + ', ' + this.y + ')';
 };
 
 var p = new Point(1, 2);
@@ -889,14 +889,14 @@ var p = new Point(1, 2);
 
 ```javascript
 class Point {
-constructor(x, y) {
-this.x = x;
-this.y = y;
-}
+    constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    }
 
-toString() {
-return '(' + this.x + ', ' + this.y + ')';
-}
+    toString() {
+        return '(' + this.x + ', ' + this.y + ')';
+    }
 }
 
 typeof Point // "function"
@@ -918,14 +918,14 @@ Object.keys(Point.prototype)// []
 class ColorPoint extends Point {}
 
 class ColorPoint extends Point {
-constructor(x, y, color) {
-super(x, y); // 调用父类的constructor(x, y)
-this.color = color;
-}
+    constructor(x, y, color) {
+        super(x, y); // 调用父类的constructor(x, y)
+        this.color = color;
+    }
 
-toString() {
-return this.color + ' ' + super.toString(); // 调用父类的toString()
-}
+    toString() {
+        return this.color + ' ' + super.toString(); // 调用父类的toString()
+    }
 }
 ```
 
@@ -939,15 +939,15 @@ return this.color + ' ' + super.toString(); // 调用父类的toString()
 
 ```
 class MyClass {
-constructor() {
-// ...
-}
-get prop() {
-return 'getter';
-}
-set prop(value) {
-console.log('setter: '+value);
-}
+    constructor() {
+        // ...
+    }
+    get prop() {
+        return 'getter';
+    }
+    set prop(value) {
+        console.log('setter: '+value);
+    }
 }
 
 let inst = new MyClass();
@@ -963,18 +963,18 @@ inst.prop// 'getter'
 
 ```javascript
 class Foo {
-constructor(...args) {
-this.args = args;
-}
-* [Symbol.iterator]() {
-for (let arg of this.args) {
-yield arg;
-}
-}
+    constructor(...args) {
+        this.args = args;
+    }
+    * [Symbol.iterator]() {
+        for (let arg of this.args) {
+            yield arg;
+        }
+    }
 }
 
 for (let x of new Foo('hello', 'world')) {
-console.log(x);
+    console.log(x);
 }
 // hello
 // world
@@ -991,9 +991,9 @@ console.log(x);
 
 ```javascript
 class Foo {
-static classMethod() {
-return 'hello';
-}
+    static classMethod() {
+        return 'hello';
+    }
 }
 
 Foo.classMethod() // 'hello'
@@ -1023,14 +1023,14 @@ var firstName = 'Michael';
 var lastName = 'Jackson';
 var year = 1958;
 function multiply(x, y) {
-return x * y;
+    return x * y;
 };
 
 export {
-firstName,
-lastName,
-year,
-multiply as multi
+    firstName,
+    lastName,
+    year,
+    multiply as multi
 };
 ```
 
@@ -1053,9 +1053,9 @@ import * as circle from './circle';
 
 // 报错
 if (x === 1) {
-import { foo } from 'module1';
+    import { foo } from 'module1';
 } else {
-import { foo } from 'module2';
+    import { foo } from 'module2';
 }
 
 import 'lodash';
@@ -1072,7 +1072,7 @@ import 'lodash';
 
 ```javascript
 export default function () {
-console.log('foo');
+    console.log('foo');
 }
 
 import customName from './export-default';
@@ -1080,7 +1080,7 @@ customName(); // 'foo'
 
 // 对比
 export function foo() {
-console.log('foo');
+    console.log('foo');
 };
 
 import {foo} from './export';
@@ -1127,19 +1127,19 @@ export { default } from 'foo';
 
 ```javascript
 var promise = new Promise(function(resolve, reject) {
-// ... some code
+    // ... some code
 
-if (/* 异步操作成功 */){
-resolve(value);
-} else {
-reject(error);
-}
+    if (/* 异步操作成功 */){
+        resolve(value);
+    } else {
+        reject(error);
+    }
 });
 
 promise.then(function(value) {
-// success
+    // success
 }, function(error) {
-// failure
+    // failure
 });
 ```
 
@@ -1161,14 +1161,14 @@ promise.then(function(value) {
 
 ```javascript
 var obj = new Proxy({}, {
-get: function (target, key, receiver) {
-console.log(`getting ${key}!`);
-return Reflect.get(target, key, receiver);
-},
-set: function (target, key, value, receiver) {
-console.log(`setting ${key}!`);
-return Reflect.set(target, key, value, receiver);
-}
+    get: function (target, key, receiver) {
+        console.log(`getting ${key}!`);
+        return Reflect.get(target, key, receiver);
+    },
+    set: function (target, key, value, receiver) {
+        console.log(`setting ${key}!`);
+        return Reflect.set(target, key, value, receiver);
+    }
 });
 
 obj.count = 1
